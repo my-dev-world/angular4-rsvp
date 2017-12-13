@@ -18,14 +18,15 @@ export class AuthService {
   });
   userProfile: any;
   loggedIn: boolean;
+  isAdmin: boolean;
   loggedIn$ = new BehaviorSubject<boolean>(this.loggedIn);
 
   constructor(private router: Router) {
-    console.log(AUTH_CONFIG.CLIENT_DOMAIN);
     const lsProfile = localStorage.getItem('profile');
 
     if (this.tokenValid) {
       this.userProfile = JSON.parse(lsProfile);
+      this.isAdmin = localStorage.getItem('isAdmin') === 'true';
       this.setLoggedIn(true);
     }
   }
@@ -36,7 +37,6 @@ export class AuthService {
   }
 
   login() {
-    debugger;
     this._auth0.authorize();
   }
 
@@ -72,7 +72,15 @@ export class AuthService {
     localStorage.setItem('profile', JSON.stringify(profile));
     this.userProfile = profile;
 
+    this.isAdmin = this._checkAdmin(profile);
+    localStorage.setItem('isAdmin', this.isAdmin.toString());
+
     this.setLoggedIn(true);
+  }
+
+  private _checkAdmin(profile) {
+    const roles = profile[AUTH_CONFIG.NAMESPACE] || [];
+    return roles.indexOf('admin') > -1;
   }
 
   logout() {
@@ -82,9 +90,11 @@ export class AuthService {
     localStorage.removeItem('profile');
     localStorage.removeItem('expires_at');
     localStorage.removeItem('authRedirect');
+    localStorage.removeItem('isAdmin');
 
     // Reset local properties, update loggedIn$ stream
     this.userProfile = undefined;
+    this.isAdmin = undefined;
     this.setLoggedIn(false);
     // Return to homepage
     this.router.navigate(['/']);
