@@ -10,9 +10,9 @@ interface AuthConfig {
 };
 
 export const AUTH_CONFIG: AuthConfig = {
-  CLIENT_ID: '[AUTH0_CLIENT_ID]',
-  CLIENT_DOMAIN: '[AUTH0_CLIENT_DOMAIN]',
-  AUDIENCE: '[YOUR_AUTH0_API_AUDIENCE]', // likely http://localhost:8083/api/
+  CLIENT_ID: 'vPN7CEDeoRWtMh8MmF94RQtNZOvedymQ',
+  CLIENT_DOMAIN: 'kurt-rsvp.auth0.com',
+  AUDIENCE: 'http://localhost:8083/api/', // likely http://localhost:8083/api/
   REDIRECT: `${ENV.BASE_URI}/callback`,
   SCOPE: 'openid profile'
 };
