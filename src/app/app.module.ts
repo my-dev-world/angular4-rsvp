@@ -11,6 +11,7 @@ import { CallbackComponent } from './pages/callback/callback.component';
 
 import { AuthService} from './auth/auth.service';
 import { ApiService } from './core/api.service';
+import { LoadingComponent } from './core/loading.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { ApiService } from './core/api.service';
     HomeComponent,
     HeaderComponent,
     FooterComponent,
-    CallbackComponent
+    CallbackComponent,
+    LoadingComponent
   ],
   imports: [
     BrowserModule,
